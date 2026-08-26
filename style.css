@@ -25106,3 +25106,386 @@ header.nav > .language-selector .language-menu {
     grid-template-columns: 1fr !important;
   }
 }
+/* ================================
+   ABOUT PAGE - HOVER VISIBILITY FIX
+   ================================ */
+
+/* Main links / CTA */
+.about-page a:hover,
+.aboutus-page a:hover,
+.about-content a:hover {
+    color: #0b1f35 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Work with eSenceDesk button/link */
+.work-with-esencedesk:hover,
+.work-with-esencedesk:focus,
+.work-with-esencedesk:active {
+    color: #ffffff !important;
+    background: #1769e8 !important;
+    border-color: #1769e8 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Any text inside the button */
+.work-with-esencedesk:hover *,
+.work-with-esencedesk:focus *,
+.work-with-esencedesk:active * {
+    color: #ffffff !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Generic text links used on About page */
+.about-page .text-link:hover,
+.about-page .btn:hover,
+.about-page button:hover,
+.aboutus-page .text-link:hover,
+.aboutus-page .btn:hover {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Prevent a global hover rule from making text disappear */
+.about-page a,
+.about-page a span,
+.about-page a strong,
+.about-page a em,
+.aboutus-page a,
+.aboutus-page a span,
+.aboutus-page a strong,
+.aboutus-page a em {
+    text-shadow: none !important;
+}
+/* About page - Start a conversation link */
+a[data-i18n="content.start_a_conversation"] {
+    color: #0b1f35 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+}
+
+a[data-i18n="content.start_a_conversation"]:hover,
+a[data-i18n="content.start_a_conversation"]:focus,
+a[data-i18n="content.start_a_conversation"]:active {
+    color: #ffffff !important;
+    background: #1769e8 !important;
+    border-color: #1769e8 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+a[data-i18n="content.start_a_conversation"]:hover * {
+    color: #ffffff !important;
+}
+/* Start a conversation - normal + hover */
+a[data-i18n="content.start_a_conversation"] {
+    color: #0b1f35 !important;
+    background: transparent !important;
+    border: 1px solid #0b1f35 !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    text-shadow: none !important;
+
+    transition:
+        color .25s ease,
+        background-color .25s ease,
+        border-color .25s ease,
+        transform .25s ease;
+}
+
+a[data-i18n="content.start_a_conversation"]:hover {
+    color: #ffffff !important;
+    background: #1769e8 !important;
+    border-color: #1769e8 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+/* START A CONVERSATION — HOVER FIX ONLY */
+
+a[data-i18n="content.start_a_conversation"],
+a[data-i18n="content.start_a_conversation"]:link,
+a[data-i18n="content.start_a_conversation"]:visited {
+    /* existing design ko preserve karo */
+    -webkit-text-fill-color: currentColor !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    text-shadow: none !important;
+}
+
+/* HOVER: text kabhi white/invisible na ho */
+a[data-i18n="content.start_a_conversation"]:hover {
+    color: #0b1f35 !important;
+    -webkit-text-fill-color: #0b1f35 !important;
+
+    background: transparent !important;
+    border-color: #0b1f35 !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    text-shadow: none !important;
+}
+
+/* Arrow bhi visible rahe */
+a[data-i18n="content.start_a_conversation"]:hover::after,
+a[data-i18n="content.start_a_conversation"]:hover::before {
+    color: #0b1f35 !important;
+    -webkit-text-fill-color: #0b1f35 !important;
+    opacity: 1 !important;
+}
+/* =========================================
+   ABOUT PAGE — START A CONVERSATION
+   FINAL VISIBILITY FIX
+   ========================================= */
+
+a[data-i18n="content.start_a_conversation"] {
+    color: #0b1f35 !important;
+    -webkit-text-fill-color: #0b1f35 !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    text-shadow: none !important;
+
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease !important;
+}
+
+/* hover */
+a[data-i18n="content.start_a_conversation"]:hover {
+    color: #1769e8 !important;
+    -webkit-text-fill-color: #1769e8 !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    text-shadow: none !important;
+}
+
+/* kill global white-hover rules */
+a[data-i18n="content.start_a_conversation"]:hover,
+a[data-i18n="content.start_a_conversation"]:focus,
+a[data-i18n="content.start_a_conversation"]:active {
+    mix-blend-mode: normal !important;
+}
+
+/* arrow / pseudo element */
+a[data-i18n="content.start_a_conversation"]::before,
+a[data-i18n="content.start_a_conversation"]::after {
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* if arrow is inside span */
+a[data-i18n="content.start_a_conversation"] span {
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+/* ==========================================
+   FINAL FIX — START A CONVERSATION
+   ========================================== */
+
+a[data-i18n="content.start_a_conversation"] {
+    position: relative !important;
+    z-index: 9999 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+
+    color: #0b1f35 !important;
+    -webkit-text-fill-color: #0b1f35 !important;
+
+    background: #ffffff !important;
+    border: 1px solid #0b1f35 !important;
+    border-radius: 10px !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+
+    text-shadow: none !important;
+    box-shadow: none !important;
+
+    pointer-events: auto !important;
+    overflow: visible !important;
+
+    transition:
+        color .2s ease,
+        background-color .2s ease,
+        border-color .2s ease !important;
+}
+
+/* HOVER */
+a[data-i18n="content.start_a_conversation"]:hover {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+
+    background: #1769e8 !important;
+    border-color: #1769e8 !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    mix-blend-mode: normal !important;
+    text-shadow: none !important;
+}
+
+/* Focus / keyboard */
+a[data-i18n="content.start_a_conversation"]:focus,
+a[data-i18n="content.start_a_conversation"]:focus-visible,
+a[data-i18n="content.start_a_conversation"]:active {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: #1769e8 !important;
+    border-color: #1769e8 !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    filter: none !important;
+    outline: none !important;
+}
+
+/* EVERYTHING INSIDE THE LINK */
+a[data-i18n="content.start_a_conversation"] *,
+a[data-i18n="content.start_a_conversation"]:hover *,
+a[data-i18n="content.start_a_conversation"]:focus *,
+a[data-i18n="content.start_a_conversation"]:active * {
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+}
+
+/* Remove any pseudo overlay from this link */
+a[data-i18n="content.start_a_conversation"]::before,
+a[data-i18n="content.start_a_conversation"]::after {
+    content: none !important;
+    display: none !important;
+}
+/* =========================================
+   GLOBAL HEADER ALIGNMENT — ALL PAGES
+   ========================================= */
+
+header,
+.site-header,
+.navbar,
+.main-header {
+    width: 100% !important;
+}
+
+header .container,
+.site-header .container,
+.navbar .container,
+.header-inner {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Keep logo on left */
+header .logo,
+.site-header .logo,
+.navbar .logo,
+.header-logo {
+    margin-right: auto !important;
+}
+
+/* Keep right-side controls together */
+header nav,
+.site-header nav,
+.navbar nav {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 34px !important;
+}
+
+/* Language selector */
+.language-selector,
+.language-switcher,
+.lang-selector,
+.language-menu-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-width: 94px !important;
+    height: 46px !important;
+    padding: 0 16px !important;
+
+    margin: 0 0 0 12px !important;
+
+    text-align: center !important;
+    white-space: nowrap !important;
+
+    border-radius: 12px !important;
+}
+
+/* Flag itself */
+.language-selector img,
+.language-switcher img,
+.lang-selector img,
+.language-menu-toggle img,
+.flag-img,
+.flag {
+    width: 18px !important;
+    height: 13px !important;
+
+    object-fit: cover !important;
+    object-position: center !important;
+
+    flex: 0 0 auto !important;
+    margin: 0 7px 0 0 !important;
+}
+
+/* EN text */
+.language-selector span,
+.language-switcher span,
+.lang-selector span,
+.language-menu-toggle span,
+.language-selector button,
+.language-switcher button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    line-height: 1 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+}
+
+/* Get in touch */
+header .btn,
+header .cta,
+.header-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    white-space: nowrap !important;
+    margin-left: 18px !important;
+}
+
+/* Prevent weird text stretching */
+header *,
+.site-header *,
+.navbar * {
+    box-sizing: border-box !important;
+}
