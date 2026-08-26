@@ -1,0 +1,743 @@
+/* =========================================================
+   eSenceDesk — MAIN JAVASCRIPT
+   Clean final version
+   ========================================================= */
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+const nav = document.querySelector(".nav");
+const progress = document.querySelector(".scroll-progress");
+const preloader = document.querySelector(".preloader");
+
+window.addEventListener("scroll", () => {
+    const max = document.documentElement.scrollHeight - innerHeight;
+
+    if (progress) {
+        progress.style.width =
+            (max ? scrollY / max * 100 : 0) + "%";
+    }
+
+    if (nav) {
+        nav.classList.toggle("is-scrolled", scrollY > 24);
+    }
+});
+
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        preloader?.classList.add("done");
+    }, 650);
+});
+
+
+/* =========================================================
+   MOBILE MENU
+   ========================================================= */
+
+document.querySelector(".menu")?.addEventListener("click", () => {
+
+    const mobileNav = document.querySelector(".nav nav");
+
+    if (!mobileNav) return;
+
+    if (getComputedStyle(mobileNav).display === "none") {
+
+        Object.assign(mobileNav.style, {
+            display: "flex",
+            position: "absolute",
+            top: "76px",
+            left: "0",
+            right: "0",
+            padding: "25px 6vw",
+            background: "#08090c",
+            flexDirection: "column",
+            gap: "22px"
+        });
+
+    } else {
+
+        mobileNav.removeAttribute("style");
+
+    }
+
+});
+
+
+/* =========================================================
+   CINEMATIC 8-SHOT SHOWREEL
+   ========================================================= */
+
+const showreel = document.querySelector("#showreelVideo");
+const playBtn = document.querySelector("#showreelPlay");
+const counter = document.querySelector("#shotCounter");
+const caption = document.querySelector("#showreelCaption");
+
+const timeline = [
+    ...document.querySelectorAll("#showreelTimeline i")
+];
+
+const shots = [
+    {
+        file: "shot1.mp4",
+        title: "LANGUAGE WITHOUT BORDERS.",
+        sub: "Translation · Subtitling · Localization"
+    },
+    {
+        file: "shot2.mp4",
+        title: "ORIGINAL CONTENT",
+        sub: "Film · Series · Streaming"
+    },
+    {
+        file: "shot3.mp4",
+        title: "TRANSLATION",
+        sub: "Meaning · Tone · Context"
+    },
+    {
+        file: "shot4.mp4",
+        title: "SUBTITLING & CAPTIONING",
+        sub: "Timing · Readability · Accuracy"
+    },
+    {
+        file: "shot5.mp4",
+        title: "ONE STORY. MANY WORLDS.",
+        sub: "Localization for global audiences"
+    },
+    {
+        file: "shot6.mp4",
+        title: "HUMAN-LED. QUALITY-DRIVEN.",
+        sub: "Review · QC · Final delivery"
+    },
+    {
+        file: "shot7.mp4",
+        title: "FROM ONE LANGUAGE TO THE WORLD.",
+        sub: "Global media delivery"
+    },
+    {
+        file: "shot8.mp4",
+        title: "eSenceDesk",
+        sub: "Global Language & Media Solutions"
+    }
+];
+
+let shotIndex = 0;
+let playing = true;
+
+
+function updateShotUI() {
+
+    const shot = shots[shotIndex];
+
+    if (counter) {
+        counter.textContent =
+            String(shotIndex + 1).padStart(2, "0") + " / 08";
+    }
+
+    if (caption) {
+
+        caption.classList.remove("caption-in");
+
+        void caption.offsetWidth;
+
+        caption.innerHTML =
+            "<span>" +
+            shot.title +
+            "</span><strong>" +
+            shot.sub +
+            "</strong>";
+
+        caption.classList.add("caption-in");
+    }
+
+    timeline.forEach((el, i) => {
+        el.classList.toggle(
+            "active",
+            i === shotIndex
+        );
+    });
+}
+
+
+function playShot(index) {
+
+    if (!showreel) return;
+
+    shotIndex = index;
+
+    updateShotUI();
+
+    showreel.src = shots[shotIndex].file;
+
+    showreel.load();
+
+    const promise = showreel.play();
+
+    if (promise && typeof promise.catch === "function") {
+        promise.catch(() => {});
+    }
+
+    playing = true;
+
+    if (playBtn) {
+        playBtn.textContent = "Ⅱ";
+        playBtn.setAttribute(
+            "aria-label",
+            "Pause showreel"
+        );
+    }
+}
+
+
+function nextShot() {
+
+    if (!showreel) return;
+
+    const next =
+        (shotIndex + 1) % shots.length;
+
+    playShot(next);
+}
+
+
+if (showreel) {
+
+    showreel.addEventListener(
+        "ended",
+        nextShot
+    );
+
+
+    /* Skip missing videos instead of breaking */
+
+    showreel.addEventListener(
+        "error",
+        () => {
+
+            if (shotIndex < shots.length - 1) {
+
+                shotIndex++;
+
+                playShot(shotIndex);
+
+            } else {
+
+                playShot(0);
+
+            }
+
+        }
+    );
+
+
+    showreel.addEventListener(
+        "loadeddata",
+        () => {
+
+            if (playing) {
+
+                const promise =
+                    showreel.play();
+
+                if (
+                    promise &&
+                    typeof promise.catch === "function"
+                ) {
+                    promise.catch(() => {});
+                }
+
+            }
+
+        }
+    );
+
+
+    /* Video progress */
+
+    showreel.addEventListener(
+        "timeupdate",
+        () => {
+
+            const duration =
+                showreel.duration;
+
+            if (!duration) return;
+
+            const percent =
+                (showreel.currentTime / duration) * 100;
+
+            showreel.style.setProperty(
+                "--video-progress",
+                percent + "%"
+            );
+
+        }
+    );
+
+
+    /* Play / Pause */
+
+    playBtn?.addEventListener(
+        "click",
+        () => {
+
+            if (showreel.paused) {
+
+                showreel.play();
+
+                playing = true;
+
+                playBtn.textContent = "Ⅱ";
+
+                playBtn.setAttribute(
+                    "aria-label",
+                    "Pause showreel"
+                );
+
+            } else {
+
+                showreel.pause();
+
+                playing = false;
+
+                playBtn.textContent = "▶";
+
+                playBtn.setAttribute(
+                    "aria-label",
+                    "Play showreel"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* Timeline buttons */
+
+    timeline.forEach(
+        (el, i) => {
+
+            el.addEventListener(
+                "click",
+                () => playShot(i)
+            );
+
+        }
+    );
+
+
+    playShot(0);
+
+}
+
+
+/* =========================================================
+   REVEAL ANIMATIONS
+   ========================================================= */
+
+const revealItems = document.querySelectorAll(
+    ".service, .process-grid>div, .partner-row span, .signal-strip>div"
+);
+
+if ("IntersectionObserver" in window) {
+
+    const observer =
+        new IntersectionObserver(
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.style.opacity = "1";
+
+                        entry.target.style.transform =
+                            "translateY(0)";
+
+                        observer.unobserve(
+                            entry.target
+                        );
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.08
+            }
+        );
+
+
+    revealItems.forEach(element => {
+
+        element.style.opacity = "1";
+
+        element.style.transform =
+            "translateY(0)";
+
+        element.style.transition =
+            "transform .7s cubic-bezier(.2,.8,.2,1)";
+
+        observer.observe(element);
+
+    });
+
+}
+
+
+/* =========================================================
+   MEDIA LOCALIZATION BACKGROUND CARD
+   ========================================================= */
+
+(() => {
+
+    const video =
+        document.getElementById("mediaBgVideo");
+
+    if (!video) return;
+
+
+    const files = [
+        "shot1.mp4",
+        "shot2.mp4",
+        "shot3.mp4",
+        "shot4.mp4",
+        "shot5.mp4",
+        "shot6.mp4",
+        "shot7.mp4",
+        "shot8.mp4"
+    ];
+
+
+    const info = [
+
+        [
+            "MEDIA LOCALIZATION",
+            "Your story,<br><span>everywhere.</span>",
+            "Professional translation, subtitling and localization for film, series and digital media."
+        ],
+
+        [
+            "ORIGINAL CONTENT",
+            "Made to travel<br><span>further.</span>",
+            "Content prepared for international audiences without losing its original voice."
+        ],
+
+        [
+            "TRANSLATION",
+            "Meaning,<br><span>preserved.</span>",
+            "Context-aware language translation for global audiences and markets."
+        ],
+
+        [
+            "SUBTITLING & CAPTIONING",
+            "Every word,<br><span>in sync.</span>",
+            "Precise subtitle timing, adaptation and multilingual captioning."
+        ],
+
+        [
+            "LOCALIZATION",
+            "One story.<br><span>Many worlds.</span>",
+            "Language and cultural adaptation designed for international distribution."
+        ],
+
+        [
+            "QUALITY CONTROL",
+            "Human-led.<br><span>quality-driven.</span>",
+            "Detailed linguistic and technical review before final delivery."
+        ],
+
+        [
+            "GLOBAL DELIVERY",
+            "From one language<br><span>to the world.</span>",
+            "Production-ready localized content for audiences across markets."
+        ],
+
+        [
+            "ESENCEDESK",
+            "Built for<br><span>global content.</span>",
+            "Translation · Subtitling · Localization · Media Services"
+        ]
+
+    ];
+
+
+    let index = 0;
+
+
+    const shotNo =
+        document.getElementById("mediaShotNo");
+
+    const label =
+        document.getElementById("mediaLabel");
+
+    const title =
+        document.getElementById("mediaTitle");
+
+    const desc =
+        document.getElementById("mediaDesc");
+
+    const play =
+        document.getElementById("mediaPlay");
+
+    const playIcon =
+        play
+            ? play.querySelector(".media-play-icon")
+            : null;
+
+    const fill =
+        document.getElementById(
+            "mediaProgressFill"
+        );
+
+    const metaShots =
+        document.querySelectorAll(
+            ".media-card-meta div"
+        );
+
+
+    function setText(i) {
+
+        const [labelText, titleText, description] =
+            info[i];
+
+        if (shotNo) {
+            shotNo.textContent =
+                String(i + 1).padStart(2, "0");
+        }
+
+        if (label) {
+            label.textContent = labelText;
+        }
+
+        if (title) {
+            title.innerHTML = titleText;
+        }
+
+        if (desc) {
+            desc.textContent = description;
+        }
+
+    }
+
+
+    function loadShot(i) {
+
+        index =
+            ((i % files.length) +
+                files.length) %
+            files.length;
+
+        setText(index);
+
+        video.src = files[index];
+
+        video.currentTime = 0;
+
+        video.muted = true;
+
+        video.play().catch(() => {});
+
+        if (fill) {
+            fill.style.width = "0%";
+        }
+
+    }
+
+
+    function nextMediaShot() {
+        loadShot(index + 1);
+    }
+
+
+    metaShots.forEach(item => {
+
+        item.addEventListener(
+            "click",
+            () => {
+
+                const shot =
+                    Number(item.dataset.shot);
+
+                loadShot(shot);
+
+            }
+        );
+
+    });
+
+
+    video.addEventListener(
+        "ended",
+        nextMediaShot
+    );
+
+
+    video.addEventListener(
+        "timeupdate",
+        () => {
+
+            if (
+                fill &&
+                video.duration
+            ) {
+
+                fill.style.width =
+                    Math.min(
+                        100,
+                        (
+                            video.currentTime /
+                            video.duration
+                        ) * 100
+                    ) + "%";
+
+            }
+
+        }
+    );
+
+
+    if (play) {
+
+        play.addEventListener(
+            "click",
+            () => {
+
+                if (video.paused) {
+
+                    video.play().catch(() => {});
+
+                    if (playIcon) {
+                        playIcon.textContent = "Ⅱ";
+                    }
+
+                    play.setAttribute(
+                        "aria-label",
+                        "Pause video"
+                    );
+
+                } else {
+
+                    video.pause();
+
+                    if (playIcon) {
+                        playIcon.textContent = "▶";
+                    }
+
+                    play.setAttribute(
+                        "aria-label",
+                        "Play video"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    loadShot(0);
+
+})();
+
+
+/* =========================================================
+   FIRST-PARTY JSON I18N — NO THIRD-PARTY TRANSLATION WIDGET
+   ========================================================= */
+(function(){
+  const LANGS = {
+    en:['EN','us.png','English'], hi:['HI','in.png','Hindi'], fr:['FR','fr.png','French'],
+    de:['DE','de.png','German'], es:['ES','es.png','Spanish'], it:['IT','it.png','Italian'],
+    pt:['PT','pt.png','Portuguese'], nl:['NL','nl.png','Dutch'], ru:['RU','ru.png','Russian'],
+    ar:['AR','sa.png','Arabic'], bn:['BN','bd.png','Bengali'], ja:['JA','jp.png','Japanese'],
+    ko:['KO','kr.png','Korean'], 'zh-CN':['ZH','zh.png','Chinese'], tr:['TR','tr.png','Turkish']
+  };
+  const saved = localStorage.getItem('esenceDeskLanguage') || 'en';
+  const fileName = code => code.replace('-', '_');
+  const selectors = () => document.querySelectorAll('.language-selector');
+
+  async function loadLocale(lang){
+    try{
+      const r = await fetch('locales/'+fileName(lang)+'.json',{cache:'no-store'});
+      if(!r.ok) throw new Error('locale');
+      const dict = await r.json();
+      // Always keep English as a fallback for any missing key.
+      if(lang !== 'en'){
+        try{
+          const er = await fetch('locales/en.json',{cache:'no-store'});
+          if(er.ok){ const enDict = await er.json(); Object.keys(enDict).forEach(k=>{ if(!(k in dict)) dict[k]=enDict[k]; }); }
+        }catch(_e){}
+      }
+      document.documentElement.lang = lang;
+      document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key=el.getAttribute('data-i18n');
+        if(!(key in dict)) return;
+        const value=String(dict[key]);
+        // If this node contains another translated node, only replace its own direct text nodes.
+        // Otherwise replace the complete content so <br>/<em>-based headings are localized correctly.
+        const nested=el.querySelector('[data-i18n]');
+        if(nested){
+          const direct=[...el.childNodes].filter(n=>n.nodeType===Node.TEXT_NODE);
+          if(direct.length){ direct[0].nodeValue=value; for(let i=1;i<direct.length;i++) direct[i].nodeValue=''; }
+        }else{
+          el.textContent=value;
+        }
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+        const key=el.getAttribute('data-i18n-placeholder');
+        if(key in dict) el.setAttribute('placeholder',String(dict[key]));
+      });
+      document.querySelectorAll('[data-i18n-title]').forEach(el=>{
+        const key=el.getAttribute('data-i18n-title');
+        if(key in dict) el.setAttribute('title',String(dict[key]));
+      });
+      updateSelector(lang);
+      localStorage.setItem('esenceDeskLanguage',lang);
+    }catch(e){ console.warn('eSenceDesk locale load failed:',lang,e); }
+  }
+  function updateSelector(lang){
+    const d=LANGS[lang]||LANGS.en;
+    selectors().forEach(sel=>{
+      const img=sel.querySelector('.current-lang-flag');
+      const code=sel.querySelector('.lang-code');
+      if(img){img.src=d[1];img.alt=d[2];}
+      if(code) code.textContent=d[0];
+    });
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    selectors().forEach(sel=>{
+      const current=sel.querySelector('.language-current');
+      if(!current) return;
+      current.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const open=sel.classList.toggle('open');current.setAttribute('aria-expanded',String(open));});
+      sel.querySelectorAll('.language-menu button').forEach(btn=>{
+        btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();const lang=btn.dataset.lang;if(!LANGS[lang])return;sel.classList.remove('open');current.setAttribute('aria-expanded','false');loadLocale(lang);});
+      });
+    });
+    document.addEventListener('click',()=>selectors().forEach(sel=>{sel.classList.remove('open');sel.querySelector('.language-current')?.setAttribute('aria-expanded','false');}));
+    updateSelector(saved);
+    if(saved!=='en') loadLocale(saved);
+  });
+})();
+
+/* =========================================================
+   MEGA MENU — desktop hover only
+   Links remain normal links: hover opens the menu, click navigates.
+   ========================================================= */
+document.addEventListener("DOMContentLoaded", () => {
+    const items = document.querySelectorAll(".nav-item.has-mega");
+    items.forEach(item => {
+        item.addEventListener("mouseenter", () => {
+            items.forEach(other => {
+                if (other !== item) other.classList.remove("mega-open");
+            });
+            item.classList.add("mega-open");
+        });
+        item.addEventListener("mouseleave", () => {
+            item.classList.remove("mega-open");
+        });
+    });
+});

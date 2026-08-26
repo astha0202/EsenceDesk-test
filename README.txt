@@ -1,0 +1,1 @@
+eSenceDesk Ultra Premium V4 — normal browser cursor, cinematic premium UI, separate WhatsApp/Call/Email circles.
